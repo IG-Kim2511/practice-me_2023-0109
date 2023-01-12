@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #keyboard td{
+            padding: 3rem;
+            background-color: aliceblue;
+        }
+    </style>
+</head>
+<body>
+    <table id="keyboard">
+        <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>8</td>
+          <td>9</td>
+        </tr>
+        <tr>
+          <td>a</td>
+          <td>b</td>
+          <td>c</td>
+        </tr>
+      </table>
+      <input type="text" id="input-field">
+      
+      <script>
+        const keyboard = document.getElementById('keyboard');
+
+        keyboard.addEventListener('click', function(event) {
+            if (event.target.tagName === 'TD') {
+                const key = event.target.textContent;
+                handleKeyPress(key);
+            }
+        });
+
+        function handleKeyPress(key) {
+            const inputField = document.getElementById('input-field');
+            inputField.value += key;
+            console.log(typeof inputField.value ) 
+        }
+
+      </script>
+</body>
+</html>
