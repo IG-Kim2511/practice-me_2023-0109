@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   
+    <header class="main-header">
+        <nav class="main-nav nav"> 
+            <ul>
+                <li><a href="./index.html">home</a></li>
+                <li><a href="./test.html">test</a></li>
+                <li></li>
+            </ul>
+        </nav>
+
+    </header>
+    
+    test
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    </script>
+        
+    <script>
+
+
+
+        function getCrimeData() {
+            const endpoint = "https://crime-data-explorer.fr.cloud.gov/api/";
+            fetch(endpoint)
+                .then(res => res.json())
+                .then(data => {
+                    // Do something with the data
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        }
+        getCrimeData();
+
+        function createMarkers(data) {
+            data.forEach(crime => {
+                const marker = new google.maps.Marker({
+                    position: {
+                        lat: crime.latitude,
+                        lng: crime.longitude
+                    },
+                    map: map
+                });
+                marker.addListener("click", function() {
+                    // Show information about the crime
+                });
+            });
+        }
+        createMarkers();
+    </script>
+</body>
+</html>
