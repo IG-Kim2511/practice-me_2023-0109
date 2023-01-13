@@ -1,5 +1,5 @@
 console.log('first')
 
 
-window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
+// window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: "smooth" });
 
