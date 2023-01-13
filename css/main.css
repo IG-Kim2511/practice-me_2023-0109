@@ -295,18 +295,10 @@ html:hover{
   
   /* 🍀 table : 🚀 table -center align */
   table {
-    width: 100%;
-    /* border-collapse: collapse; */
+    margin: 0 auto; /* center the table horizontally */
   }
   
-  th,
-  td {
-    text-align: center;
-    vertical-align: middle;
-  
-    /*   width: 20%;
-      text-align: right; */
-  }
+
   
   /* 🍀Utility class */
   

@@ -1,61 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <title>Pokemon List</title>
 </head>
 <body>
-   
-    <header class="main-header">
-        <nav class="main-nav nav"> 
-            <ul>
-                <li><a href="./index.html">home</a></li>
-                <li><a href="./test.html">test</a></li>
-                <li></li>
-            </ul>
-        </nav>
-
-    </header>
-    
-    test
-
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
-    </script>
-        
-    <script>
-
-
-
-        function getCrimeData() {
-            const endpoint = "https://crime-data-explorer.fr.cloud.gov/api/";
-            fetch(endpoint)
-                .then(res => res.json())
-                .then(data => {
-                    // Do something with the data
-                })
-                .catch(err => {
-                    console.error(err);
-                });
-        }
-        getCrimeData();
-
-        function createMarkers(data) {
-            data.forEach(crime => {
-                const marker = new google.maps.Marker({
-                    position: {
-                        lat: crime.latitude,
-                        lng: crime.longitude
-                    },
-                    map: map
-                });
-                marker.addListener("click", function() {
-                    // Show information about the crime
-                });
+  <h1>Pokemon List</h1>
+  <ul id="pokemon-list"></ul>
+  <script>
+    // Fetch the list of Pokemon from the API
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
+      .then(response => response.json())
+      .then(data => {
+        let pokemonList = data.results;
+        // Iterate through the list of Pokemon and create list items
+        let pokemonListElements = pokemonList.map(pokemon => {
+          let li = document.createElement('li');
+          let img = document.createElement('img');
+          img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`
+          li.appendChild(img);
+          li.innerHTML += `<p>Name: ${pokemon.name}</p>`;
+          return li;
+        });
+        // Add the list items to the existing HTML list
+        let list = document.querySelector('#pokemon-list');
+        pokemonListElements.forEach(li => list.appendChild(li));
+        // Fetch details of each pokemon
+        pokemonList.forEach(pokemon => {
+          fetch(pokemon.url)
+            .then(response => response.json())
+            .then(data => {
+              let pokemonDetails = data;
+              let li = document.querySelector(`li:contains(${pokemon.name})`);
+              li.innerHTML += `<p>Type: ${pokemonDetails.types.map(type => type.type.name)}</p>`;
+              li.innerHTML += `<p>Weight: ${pokemonDetails.weight}</p>`;
+              li.innerHTML += `<p>Height: ${pokemonDetails.height}</p>`;
+              li.innerHTML += `<p>Base Experience: ${pokemonDetails.base_experience}</p>`;
+              li.innerHTML += `<p>Stats: ${pokemonDetails.stats.map(stat => stat.stat.name + ': ' + stat.base_stat)}</p>`;
             });
-        }
-        createMarkers();
-    </script>
+        });
+      });
+  </script>
 </body>
 </html>
