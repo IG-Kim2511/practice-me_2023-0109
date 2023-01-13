@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+
+    <body onload="init()">
+        <canvas id="canvas" width="800" height="1200" style="border: 1px solid black;"></canvas>
+
+
+    <!-- SCRIPT -->
+        <script>
+            var canvas;
+            var ctx;
+            
+            var tetriminos = [    [[1,1,1,1]],
+                [[1,1],[1,1]],
+                [[1,1,0],[0,1,1]],
+                [[0,1,1],[1,1,0]],
+                [[1,1,1],[0,0,1]],
+                [[1,1,1],[1,0,0]],
+                [[0,1,0],[1,1,1]]
+            ];
+            
+            var current;
+            var currentX;
+            var currentY;
+            
+            function newTetrimino() {
+                var random = Math.floor(Math.random() * tetriminos.length);
+                current = tetriminos[random];
+                currentX = 3;
+                currentY = 0;
+            }
+            
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (var i = 0; i < current.length; i++) {
+                    for (var j = 0; j < current[i].length; j++) {
+                        if (current[i][j]) {
+                            ctx.fillRect((currentX + j) * 30, (currentY + i) * 30, 30, 30);
+                        }
+                    }
+                }
+            }
+            
+            function moveDown() {
+                currentY++;
+                draw();
+            }
+            
+            function moveRight() {
+                currentX++;
+                draw();
+            }
+            
+            function moveLeft() {
+                currentX--;
+                draw();
+            }
+            
+            function rotate() {
+                var newCurrent = [];
+                for (var i = 0; i < current[0].length; i++) {
+                    newCurrent[i] = [];
+                    for (var j = 0; j < current.length; j++) {
+                        newCurrent[i][j] = current[current.length - 1 - j][i];
+                    }
+                }
+                current = newCurrent;
+                draw();
+            }
+            
+            function init() {
+                canvas = document.getElementById("canvas");
+                ctx = canvas.getContext("2d");
+                newTetrimino();
+                draw();
+                setInterval(moveDown, 1000);
+                document.onkeydown = function(e) {
+                    if (e.keyCode == 37) {
+                        moveLeft();
+                    } else if (e.keyCode == 39) {
+                        moveRight();
+                    } else if (e.keyCode == 38) {
+                        rotate();
+                    } else if (e.keyCode == 40) {
+                        moveDown();
+                    }
+                }
+            }
+            </script>
+    </body>
+
+</html>
+
+
